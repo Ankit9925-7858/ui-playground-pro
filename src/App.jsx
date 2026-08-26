@@ -56,7 +56,7 @@ function parseRoute(){
 function routeHash(page,projectId=null){
   return page==='editor'&&projectId?`#editor/${projectId}`:`#${page}`;
 }
-function cleanMalformedPath(){s
+function cleanMalformedPath(){
   if(/^\/https?:\/\//i.test(window.location.pathname)){
     window.history.replaceState(null,'',`${window.location.origin}/${window.location.hash||'#home'}`);
   }
