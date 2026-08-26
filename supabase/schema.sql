@@ -1,4 +1,4 @@
--- UI Playground Pro: safe schema + migration for existing projects
+-- UI Playground Pro: safe schema + migration
 create extension if not exists pgcrypto;
 
 create table if not exists public.projects (
@@ -10,14 +10,13 @@ create table if not exists public.projects (
   updated_at timestamptz not null default now()
 );
 
--- Important for projects created with older versions of the app.
 alter table public.projects add column if not exists user_id uuid references auth.users(id) on delete cascade;
 alter table public.projects add column if not exists name text not null default 'Untitled Playground';
 alter table public.projects add column if not exists code jsonb not null default '{"html":"","css":"","js":""}'::jsonb;
 alter table public.projects add column if not exists created_at timestamptz not null default now();
 alter table public.projects add column if not exists updated_at timestamptz not null default now();
 
--- Repair null/invalid code values left by older builds.
+-- Repair null/invalid code values.
 update public.projects
 set code = '{"html":"","css":"","js":""}'::jsonb
 where code is null or jsonb_typeof(code) <> 'object';
@@ -51,5 +50,3 @@ create trigger projects_updated_at
 before update on public.projects
 for each row execute function public.set_updated_at();
 
--- Refresh the PostgREST schema cache after migration.
-notify pgrst, 'reload schema';

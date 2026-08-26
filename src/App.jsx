@@ -24,9 +24,7 @@ const components=[
 {name:'Pricing Card',cat:'Sections',code:`<div class="max-w-sm rounded-3xl border border-indigo-200 bg-white p-7 text-slate-900 shadow-xl"><p class="font-semibold text-indigo-600">PRO</p><h3 class="mt-3 text-4xl font-bold">$19<span class="text-base font-normal text-slate-500">/mo</span></h3><ul class="my-6 space-y-3 text-slate-600"><li>✓ Unlimited projects</li><li>✓ Cloud sync ready</li><li>✓ Export code</li></ul><button class="w-full rounded-xl bg-indigo-600 p-3 font-semibold text-white">Choose Pro</button></div>`}
 ];
 
-function uid(){return Math.random().toString(36).slice(2)+Date.now().toString(36)}
-// Supabase rows from older versions or partially-created projects can have
-// missing/null code fields. Keep the editor and preview safe in every case.
+  function uid(){return Math.random().toString(36).slice(2)+Date.now().toString(36)}
 function normalizeCode(value){
   const source=value && typeof value==='object'?value:{};
   return {
@@ -58,9 +56,7 @@ function parseRoute(){
 function routeHash(page,projectId=null){
   return page==='editor'&&projectId?`#editor/${projectId}`:`#${page}`;
 }
-function cleanMalformedPath(){
-  // Fix URLs produced by an older navigation bug such as
-  // /http://localhost:5173/#editor without hard-coding localhost.
+function cleanMalformedPath(){s
   if(/^\/https?:\/\//i.test(window.location.pathname)){
     window.history.replaceState(null,'',`${window.location.origin}/${window.location.hash||'#home'}`);
   }
